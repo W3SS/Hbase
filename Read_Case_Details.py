@@ -35,19 +35,19 @@ test = ''
 def Read_SR(SR_File):
     SR_Key = ['SRID','PROCESS_TYPE_DES','PROCESS_TYPE','DESCRIPTION','BETA_TYPE','ESCALATION_KEY','ESCALATION_DES','COURTESY_KEY','COURTESY','SEC_VULNERABILITY','PRODUCT_ID','SERIAL_NUMBER','STATUS_KEY','STATUS','REASON','PRIORITY_KEY','PRIORITY','SEVERITY_KEY','SEVERITY','CRITICAL_OUTAGE','PRODUCT_SERIES','PLATFORM','RELEASE','VERSION','SOFTWARE','SPECIAL_RELEASE','SR_CATEGORY1','SR_CATEGORY2','SR_CATEGORY3','SR_CATEGORY4','PRODUCT_SERIES_TECH','TECHNICAL_CATEGORY1','TECHNICAL_CATEGORY2','TECHNICAL_CATEGORY3','JSA_ADVISORY_BOARD','CVE','CVSS','SME_CONTACT','JTAC','SIRT_BUNDLE','REPORTER_DETAILS','EXTERNALLY_REPORTED','ENTITLEMENT_CHECKED','ENTITLED_SERIAL_NO','SERVICE_PRODUCT','ENTITLEMENT_SERVICE_LEVEL','ENTITLEMENT_SOURCE','SKU','START_DATE','END_DATE','CONTRACT_STATUS','CONTRACT_ID','WARRANTY_END_DATE','OUTAGE_KEY','OUTAGE','OUTAGE_INFO_AVAILABLE','OUTAGE_CAUSE_KEY','OUATGE_CAUSE','TOTAL_OUTAGE_TIME','OUTAGE_TYPE_KEY','OUTAGE_TYPE','OVERIDE_OUTAGE','OUTAGE_IMPACT_KEY','OUTAGE_IMPACT','EMPID','EMP_MAIL_ID','NO_OF_SYSTEMS_AFFECTED','NO_OF_USERS_AFFECTED','ZZQ1','ZZQ2','ZZQ3','ZZQ4','ZZQ5','ZZQ6','ZZQ7','ZZQ8','ZZQ9','ZZQ10','CRITICAL_ISSUE','ESCALATION_LEVEL_KEY','ESCALATION_LEVEL','INTERNAL_USE','PREVIOUS_TEAM','PREVIOUS_OWNER_SKILL','SUPPORT_24_7','KNOWLEDGE_ARTICLE','RA_FA','CC_CUSTOMER','CC_ENGINEER','ROUTER_NAME','TOP 5','BUILD','CUST_CASE_NO','VIA_key','VIA','FOLLOW_UP_METHOD','FOLLOW_UP_METHOD_KEY','THEATER_KEY','THEATER','TEMPERATURE','COUNTRY','OUTSOURCER','URGENCY_KEY','URGENCY']
 
-    num_lines = sum(1 for line in open('/root/HBase/CaseDetails/'+SR_File))
-    with open("/root/HBase/CaseDetails/"+SR_File, 'r') as target:
+    num_lines = sum(1 for line in open('/home/regress/HBase/CaseDetails/'+SR_File))
+    with open("/home/regress/HBase/CaseDetails/"+SR_File, 'r') as target:
         for data in islice(target, 1, num_lines):
             m = re.split(('\|\$\@\$\|'), data)
             dictionary = dict(zip(SR_Key, m))
             if (dictionary['URGENCY'] == '|#$#%$|\n'):
                 dictionary['URGENCY'] = '' 
             SRID = dictionary['SRID']
-            with open("/root/HBase/CaseFiles/SRID_LIST", "a+") as testtarget:
+            with open("/home/regress/HBase/CaseFiles/SRID_LIST", "a+") as testtarget:
                 testtarget.write(SRID)
                 testtarget.write("\n")
             json1 = json.dumps(dictionary, ensure_ascii=False)
-            with open("/root/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
+            with open("/home/regress/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
 
@@ -60,8 +60,8 @@ def Read_SR(SR_File):
 def Read_Attachment(Attach_File):
     Attach_Key = ['SNO', 'SRID', 'TITLE', 'SIZE1', 'PATH', 'PRIVATE1', 'DATE_CREATED', 'ZDATE', 'ZTIME', 'FILE_TYPE', 'CREATED_BY', 'UPLOADED_BY' ]
 
-    num_lines = sum(1 for line in open('/root/HBase/CaseDetails/'+Attach_File))
-    with open("/root/HBase/CaseDetails/"+Attach_File, 'r') as target:
+    num_lines = sum(1 for line in open('/home/regress/HBase/CaseDetails/'+Attach_File))
+    with open("/home/regress/HBase/CaseDetails/"+Attach_File, 'r') as target:
         for data in islice(target, 1, num_lines):
             m = re.split(('\|\$\@\$\|'), data)
             dictionary = dict(zip(Attach_Key, m))
@@ -70,7 +70,7 @@ def Read_Attachment(Attach_File):
             temp = dictionary['UPLOADED_BY'].rstrip('\n')
             dictionary['UPLOADED_BY'] = temp 
             json1 = json.dumps(dictionary, ensure_ascii=False)
-            with open("/root/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
+            with open("/home/regress/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
 
@@ -84,8 +84,8 @@ def Read_Attachment(Attach_File):
 def Read_KB(KB_File):
     KB_Key = ['INTERNALID','KBID','SRID','DESCRIPTION','STATUS','SOURCEVISIBILITY','DATA_SOURCE','URL','KBDATE','SRVISIBILITY','KB_FLAG']
 
-    num_lines = sum(1 for line in open('/root/HBase/CaseDetails/'+KB_File))
-    with open("/root/HBase/CaseDetails/"+KB_File, 'r') as target:
+    num_lines = sum(1 for line in open('/home/regress/HBase/CaseDetails/'+KB_File))
+    with open("/home/regress/HBase/CaseDetails/"+KB_File, 'r') as target:
         for data in islice(target, 1, num_lines):
             m = re.split(('\|\$\@\$\|'), data)
             dictionary = dict(zip(KB_Key, m))
@@ -94,7 +94,7 @@ def Read_KB(KB_File):
             if (dictionary['KB_FLAG'] == '\n'):
                 dictionary['KB_FLAG'] = '' 
             json1 = json.dumps(dictionary, ensure_ascii=False)
-            with open("/root/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
+            with open("/home/regress/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
 
@@ -111,8 +111,8 @@ def Read_KB(KB_File):
 def Read_Acct_User_Relation(Acct_User_Relation_File):
     ACCT_USR_REL_Key = ['ACCOUNT_ID','CONTACT_ID','RELATIONSHIP_CODE','RELATIONSHIP_DESCRIPTION','RELATIONSHIP_CREATE_DATE','RELATIONSHIP_CREATE_TIME','RELATIONSHIP_CHANGE_DATE','RELATIONSHIP_CHANGE_TIME','VALID_TO_DATE','VALID_FROM' ]
 
-    num_lines = sum(1 for line in open('/root/HBase/CaseDetails/'+Acct_User_Relation_File))
-    with open("/root/HBase/CaseDetails/"+Acct_User_Relation_File, 'r') as target:
+    num_lines = sum(1 for line in open('/home/regress/HBase/CaseDetails/'+Acct_User_Relation_File))
+    with open("/home/regress/HBase/CaseDetails/"+Acct_User_Relation_File, 'r') as target:
         for data in islice(target, 1, num_lines):
             m = re.split(('\|\$\@\$\|'), data)
             dictionary = dict(zip(ACCT_USR_REL_Key, m))
@@ -121,7 +121,7 @@ def Read_Acct_User_Relation(Acct_User_Relation_File):
             if (dictionary['VALID_FROM'] == '\n'):
                 dictionary['VALID_FROM'] = '' 
             json1 = json.dumps(dictionary, ensure_ascii=False)
-            with open("/root/HBase/ACCT_USER/"+dictionary['ACCOUNT_ID'],"a+") as newtarget:
+            with open("/home/regress/HBase/ACCT_USER/"+dictionary['ACCOUNT_ID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
 
@@ -138,8 +138,8 @@ def Read_Acct_User_Relation(Acct_User_Relation_File):
 def Read_Acct(Acct_File):
     ACCT_Key = ['PARTNER_ID','PARTNER _TYPE _KEY','PARTNER_TYPE','CONTACT_FIRST_NAME','CONTACT_LAST_NAME','ACCOUNT_NAME','SAP_CREATE_DATE','SAP_CREATE_TIME','SAP_CHANGE_DATE','SAP_CHANGE_TIME','HOUSE_NUMBER','STREET_1','STREET_2','STREET_3','STREET_4','CITY','REGION','POSTAL _CODE','COUNTRY','TRANSPORT ZONE','PHONE','EXTENSION','E-MAIL','COMMUNICATION_TYPE_KEY','COMMUNICATION_TYPE','RATING_KEY','RATING','ACCOUNT_TYPE_KEY','ACCOUNT_TYPE','ACCOUNT_CLASS_KEY','ACCOUNT_CLASS','DATA_ORIGIN_KEY','DATA_ORIGIN','SERVICE_RENEWAL_DATE','CUSTOMER_SINCE','COMMON_ID','STATUS','STATUS_KEY','TRAN_BLOCK_REASON_KEY','TRAN_BLOCK_REASON','ARCHIVING_FLAG','ACCOUNT_GROUP_KEY','ACCOUNT_GROUP','LANGUAGE','WEBSITE','PARTNER_GROUPING_KEY','PARTNER_GROUPING','ACCOUNT_SERVICE_LEVEL','ACCOUNT_TEMPERATURE','ANALYSIS_FLAG','AUTHORIZED_FOR_RMA','CITIZENSHIP','COURTESY_CALL','SR_BY_EMAIL','TEMPERATURE_END_DATE','ENTITLEMENT_VALID_TILL','RMA_ENTITLEMENT','SR_ENTITLEMENT','SERVICE_REQUEST_ENTITLEMENT']
 
-    num_lines = sum(1 for line in open('/root/HBase/CaseDetails/'+Acct_File))
-    with open("/root/HBase/CaseDetails/"+Acct_File, 'r') as target:
+    num_lines = sum(1 for line in open('/home/regress/HBase/CaseDetails/'+Acct_File))
+    with open("/home/regress/HBase/CaseDetails/"+Acct_File, 'r') as target:
         for data in islice(target, 1, num_lines):
             m = re.split(('\|\$\@\$\|'), data)
             dictionary = dict(zip(ACCT_Key, m))
@@ -148,7 +148,7 @@ def Read_Acct(Acct_File):
             temp = dictionary['SERVICE_REQUEST_ENTITLEMENT'].rstrip('\n')
             dictionary['SERVICE_REQUEST_ENTITLEMENT'] = temp 
             json1 = json.dumps(dictionary, ensure_ascii=False)
-            with open("/root/HBase/ACCT_USER/"+dictionary['PARTNER_ID'],"a+") as newtarget:
+            with open("/home/regress/HBase/ACCT_USER/"+dictionary['PARTNER_ID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
 
@@ -164,8 +164,8 @@ def Read_Acct(Acct_File):
 def Read_User(User_File):
     USER_Key = ['PARTNER_ID','PARTNER _TYPE _KEY','PARTNER_TYPE','CONTACT_FIRST_NAME','CONTACT_LAST_NAME','ACCOUNT_NAME','SAP_CREATE_DATE','SAP_CREATE_TIME','SAP_CHANGE_DATE','SAP_CHANGE_TIME','HOUSE_NUMBER','STREET_1','STREET_2','STREET_3','STREET_4','CITY','REGION','POSTAL _CODE','COUNTRY','TRANSPORT ZONE','PHONE','EXTENSION','E-MAIL','COMMUNICATION_TYPE_KEY','COMMUNICATION_TYPE','RATING_KEY','RATING','ACCOUNT_TYPE_KEY','ACCOUNT_TYPE','ACCOUNT_CLASS_KEY','ACCOUNT_CLASS','DATA_ORIGIN_KEY','DATA_ORIGIN','SERVICE_RENEWAL_DATE','CUSTOMER_SINCE','COMMON_ID','STATUS','STATUS_KEY','TRAN_BLOCK_REASON_KEY','TRAN_BLOCK_REASON','ARCHIVING_FLAG','ACCOUNT_GROUP_KEY','ACCOUNT_GROUP','LANGUAGE','WEBSITE','PARTNER_GROUPING_KEY','PARTNER_GROUPING','ACCOUNT_SERVICE_LEVEL','ACCOUNT_TEMPERATURE','ANALYSIS_FLAG','AUTHORIZED_FOR_RMA','CITIZENSHIP','COURTESY_CALL','SR_BY_EMAIL','TEMPERATURE_END_DATE','ENTITLEMENT_VALID_TILL','RMA_ENTITLEMENT','SR_ENTITLEMENT','SERVICE_REQUEST_ENTITLEMENT']
 
-    num_lines = sum(1 for line in open('/root/HBase/CaseDetails/'+User_File))
-    with open("/root/HBase/CaseDetails/"+User_File, 'r') as target:
+    num_lines = sum(1 for line in open('/home/regress/HBase/CaseDetails/'+User_File))
+    with open("/home/regress/HBase/CaseDetails/"+User_File, 'r') as target:
         for data in islice(target, 1, num_lines):
             m = re.split(('\|\$\@\$\|'), data)
             dictionary = dict(zip(USER_Key, m))
@@ -174,7 +174,7 @@ def Read_User(User_File):
             temp = dictionary['SERVICE_REQUEST_ENTITLEMENT'].rstrip('\n')
             dictionary['SERVICE_REQUEST_ENTITLEMENT'] = temp 
             json1 = json.dumps(dictionary, ensure_ascii=False)
-            with open("/root/HBase/ACCT_USER/"+dictionary['PARTNER_ID'],"a+") as newtarget:
+            with open("/home/regress/HBase/ACCT_USER/"+dictionary['PARTNER_ID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
 
@@ -189,8 +189,8 @@ def Read_User(User_File):
 def Read_Date(Date_File):
     DATE_Key = ['SRID','DATE_TYPE','DATE_STAMP','DURATION','TIME_UNIT']
 
-    num_lines = sum(1 for line in open('/root/HBase/CaseDetails/'+Date_File))
-    with open("/root/HBase/CaseDetails/"+Date_File, 'r') as target:
+    num_lines = sum(1 for line in open('/home/regress/HBase/CaseDetails/'+Date_File))
+    with open("/home/regress/HBase/CaseDetails/"+Date_File, 'r') as target:
         for data in islice(target, 1, num_lines):
             m = re.split(('\|\$\@\$\|'), data)
             dictionary = dict(zip(DATE_Key, m))
@@ -199,7 +199,7 @@ def Read_Date(Date_File):
             temp = dictionary['TIME_UNIT'].rstrip('\n')
             dictionary['TIME_UNIT'] = temp 
             json1 = json.dumps(dictionary, ensure_ascii=False)
-            with open("/root/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
+            with open("/home/regress/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
 
@@ -214,8 +214,8 @@ def Read_Date(Date_File):
 def Read_PartnerFunction(Partner_File):
     PARTNER_Key = ['SRID','PARTNERFUNCTION_NAME','PARTNERFUNCTION_KEY','PARTNERID','PARTNER_NAME']
     newdict = {}
-    num_lines = sum(1 for line in open('/root/HBase/CaseDetails/'+Partner_File))
-    with open("/root/HBase/CaseDetails/"+Partner_File, 'r') as target:
+    num_lines = sum(1 for line in open('/home/regress/HBase/CaseDetails/'+Partner_File))
+    with open("/home/regress/HBase/CaseDetails/"+Partner_File, 'r') as target:
         for data in islice(target, 1, num_lines):
             m = re.split(('\|\$\@\$\|'), data)
             dictionary = dict(zip(PARTNER_Key, m))
@@ -229,11 +229,11 @@ def Read_PartnerFunction(Partner_File):
                 newdict[SRId] = partnerId 
                 json2 = json.dumps(newdict, ensure_ascii=False)
                 newdict.clear()
-                with open("/root/HBase/ACCT_USER/SRID_ACCTID_MAP","a+") as temptarget:
+                with open("/home/regress/HBase/ACCT_USER/SRID_ACCTID_MAP","a+") as temptarget:
                     temptarget.write(json2)
                     temptarget.write("\n") 
             json1 = json.dumps(dictionary, ensure_ascii=False)
-            with open("/root/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
+            with open("/home/regress/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
 
@@ -247,7 +247,7 @@ def Read_PartnerFunction(Partner_File):
 ############################################################################
 def Read_SR_Notes(SR_NOTES_File):
     SRNOTES_Key = ['SRID','NOTE_TYPE_DESC','SAP_NOTE_ID','NOTE_TYPE','ORIGINATOR_SUPERVISOR','ORIGINATOR_THEATER','NOTE_LAST_UPDATE_DATE','NOTE_LAST_UPDATE_TIME','ORIGINATOR_ROLE','CREATE_METHOD','ORIGINATOR_COUNTRY','NOTE_ORIGINATOR','ORIGINATOR_RESPONSIBLE_GROUP','PRIVATE_NOTE','NOTE']
-    with open("/root/HBase/CaseDetails/"+SR_NOTES_File,'r') as target:
+    with open("/home/regress/HBase/CaseDetails/"+SR_NOTES_File,'r') as target:
         target.seek(298)
         data = target.readlines()
         str1 = ''.join(data)
@@ -257,7 +257,7 @@ def Read_SR_Notes(SR_NOTES_File):
             n = re.split('\|\$\@\$\|',str2)
             dictionary = dict(zip(SRNOTES_Key, n))
             json1 = json.dumps(dictionary, ensure_ascii=False)
-            with open("/root/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
+            with open("/home/regress/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
 ############################################################################

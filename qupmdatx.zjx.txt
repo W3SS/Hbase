@@ -1,0 +1,11 @@
+﻿Initial Hbase files
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#	new file:   Read_Case_Details.py
+#	new file:   RestApiTest.py
+#	new file:   SR_Files_Read.py
+#	new file:   test.py
+#
+

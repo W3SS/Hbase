@@ -5,10 +5,10 @@ parsed_json = None
 acctID = None
 srid = None
 val = None
-with open("/root/HBase/CaseFiles/SRID_LIST") as newtarget:
+with open("/home/regress/HBase/CaseFiles/SRID_LIST") as newtarget:
     for line in newtarget:
         SRID = line
-        with open("/root/HBase/ACCT_USER/SRID_ACCTID_MAP") as target:
+        with open("/home/regress/HBase/ACCT_USER/SRID_ACCTID_MAP") as target:
             for acctline in target:
                 parsed_json = json.loads(acctline)
                 #print parsed_json
@@ -16,9 +16,9 @@ with open("/root/HBase/CaseFiles/SRID_LIST") as newtarget:
                 srid = SRID.rstrip('\n')
                 if srid in parsed_json:
                    acctID = parsed_json[srid].rstrip('\n')
-                if (os.path.isfile("/root/HBase/ACCT_USER/0"+acctID) and ("/root/HBase/CaseFiles/"+srid)):
-                   with open("/root/HBase/ACCT_USER/0"+acctID) as temptarget:
-                       with open("/root/HBase/CaseFiles/"+srid,"a+") as fsttarget:
+                if (os.path.isfile("/home/regress/HBase/ACCT_USER/"+acctID) and ("/home/regress/HBase/CaseFiles/"+srid)):
+                   with open("/home/regress/HBase/ACCT_USER/"+acctID) as temptarget:
+                       with open("/home/regress/HBase/CaseFiles/"+srid,"a+") as fsttarget:
                            data = temptarget.read()
                            fsttarget.write(data)
                 else:
