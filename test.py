@@ -1,6 +1,7 @@
 import json
 import itertools
 import os.path
+from pymongo import MongoClient
 parsed_json = None
 acctID = None
 srid = None
@@ -19,7 +20,14 @@ with open("/home/regress/HBase/CaseFiles/SRID_LIST") as newtarget:
                 if (os.path.isfile("/home/regress/HBase/ACCT_USER/"+acctID) and ("/home/regress/HBase/CaseFiles/"+srid)):
                    with open("/home/regress/HBase/ACCT_USER/"+acctID) as temptarget:
                        with open("/home/regress/HBase/CaseFiles/"+srid,"a+") as fsttarget:
-                           data = temptarget.read()
+                           data = temptarget.readline()
                            fsttarget.write(data)
+                           client = MongoClient('10.219.48.134', 27017)
+                           db = client['ImportedEvents']
+                           collection = db['AcctUserDetails']
+                           key = srid
+                           newkey = {'SRID': key}
+                           data = json.loads(data)
+                           post_id = collection.update(newkey, data, upsert=True)
                 else:
                    continue      

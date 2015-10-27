@@ -24,7 +24,8 @@ import threading
 from sys import argv
 from time import sleep
 from requests.auth import HTTPBasicAuth
-test = ''
+from pymongo import MongoClient
+
 ############################################################################
 ## Read_SR(SR_File)
 # Input: SR_File
@@ -50,6 +51,13 @@ def Read_SR(SR_File):
             with open("/home/regress/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
+                json1 = json.loads(json1)
+                client = MongoClient('10.219.48.134', 27017)
+                db = client['ImportedEvents']
+                collection = db['srDetails']
+                key = dictionary['SRID']
+                newkey = {'SRID': key}
+                post_id = collection.update(newkey, json1, upsert=True)
 
 ############################################################################
 ## Read_Attachment(Attach_File)
@@ -73,6 +81,13 @@ def Read_Attachment(Attach_File):
             with open("/home/regress/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
+                json1 = json.loads(json1)
+                client = MongoClient('10.219.48.134', 27017)
+                db = client['ImportedEvents']
+                collection =  db['srAttachements']
+                key = dictionary['SRID']
+                newkey = {'SRID': key}
+                post_id = collection.update(newkey, json1, upsert=True)
 
 ############################################################################
 ## Read_KB(KB_File)
@@ -97,6 +112,13 @@ def Read_KB(KB_File):
             with open("/home/regress/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
+                json1 = json.loads(json1)
+                client = MongoClient('10.219.48.134', 27017)
+                db = client['ImportedEvents']
+                collection = db['srKbLink']
+                key = dictionary['SRID']
+                newkey = {'SRID': key}
+                post_id = collection.update(newkey, json1, upsert=True)
 
 
 
@@ -202,6 +224,14 @@ def Read_Date(Date_File):
             with open("/home/regress/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
+                json1 = json.loads(json1)
+                client = MongoClient('10.219.48.134', 27017)
+                db = client['ImportedEvents']
+                collection = db['srDate']
+                key = dictionary['SRID']
+                newkey = {'SRID': key}
+                post_id = collection.update(newkey, json1, upsert=True)
+
 
 
 ############################################################################
@@ -236,6 +266,13 @@ def Read_PartnerFunction(Partner_File):
             with open("/home/regress/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
+                json1 = json.loads(json1)
+                client = MongoClient('10.219.48.134', 27017)
+                db = client['ImportedEvents']
+                collection = db['srPartner']
+                key = dictionary['SRID']
+                newkey = {'SRID': key}
+                post_id = collection.update(newkey, json1, upsert=True)
 
 
 ############################################################################
@@ -260,4 +297,11 @@ def Read_SR_Notes(SR_NOTES_File):
             with open("/home/regress/HBase/CaseFiles/"+dictionary['SRID'],"a+") as newtarget:
                 newtarget.write(json1)
                 newtarget.write("\n")
+                json1 = json.loads(json1)
+                client = MongoClient('10.219.48.134', 27017)
+                db = client['ImportedEvents']
+                collection = db['srNotes']
+                key = dictionary['SRID']
+                newkey = {'SRID': key}
+                post_id = collection.update(newkey, json1, upsert=True)
 ############################################################################
